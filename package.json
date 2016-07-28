@@ -1,0 +1,32 @@
+{
+  "name": "ibuildio-template-semantic-webpack",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "Generic template based on semantic-ui framework & webpack with powerful npm based build scripts.",
+  "author": "Adnan M.Sagar, PhD.",
+  "repository": {
+    "type": "git",
+    "url": "ibuildio-templates/semantic.git"
+  },
+  "config": {
+    "deploy": {
+      "name": "iAyeBot",
+      "email": "iayebot@websemantics.ca",
+      "branch": "master:gh-pages",
+      "message": "Deploy documentation"
+    },
+    "dir": {
+      "docs": "./docs/"
+    }
+  },
+  "scripts": {
+    "build": "cd $npm_package_config_dir_docs && gitbook build",
+    "prebuild": "rm -rf ${npm_package_config_dir_docs}_book ",
+    "deploy": "[ ${GH_TOKEN} ] && npm run deploy:travis -s || npm run deploy:local -s ",
+    "deploy:local": "repository=$(echo $npm_package_repository_url | sed 's/.*+//') && cd ${npm_package_config_dir_docs}_book && git push --force --quiet $repository ${npm_package_config_deploy_branch} > /dev/null 2>&1 ",
+    "deploy:travis": "cd ${npm_package_config_dir_docs}_book && git push --force --quiet \"https://${GH_TOKEN}@${GH_REF}\" ${npm_package_config_deploy_branch} > /dev/null 2>&1 ",
+    "predeploy": "npm run build -s && cd ${npm_package_config_dir_docs}_book && git init && git config user.name $npm_package_config_deploy_name && git config user.email $npm_package_config_deploy_email && git add -A . && git commit -am \"$npm_package_config_deploy_message\" ",
+    "postdeploy": "npm run prebuild -s",
+    "serve": "cd $npm_package_config_dir_docs && gitbook serve"
+  }
+}
