@@ -23,13 +23,13 @@
 </template>
 
 <script>
-import Hello from './components/Hello'{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
+import Hello from './components/Hello'{{#eq lintConfig "airbnb"}};{{/eq}}
 
 export default {
   components: {
-    Hello{{#if_eq lintConfig "airbnb"}},{{/if_eq}}
-  }{{#if_eq lintConfig "airbnb"}},{{/if_eq}}
-}{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
+    Hello{{#eq lintConfig "airbnb"}},{{/eq}}
+  }{{#eq lintConfig "airbnb"}},{{/eq}}
+}{{#eq lintConfig "airbnb"}};{{/eq}}
 </script>
 
 <style>
