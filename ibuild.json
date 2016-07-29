@@ -21,7 +21,7 @@
     },
     "vue": {
       "type": "boolean",
-      "default": false
+      "default": true
     },
     "lint": {
       "type": "confirm",
