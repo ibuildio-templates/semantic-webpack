@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  data{{#unlessEq lintConfig "airbnb"}} {{/unlessEq}}() {
+  data{{#unlessEq lintConfig compare="airbnb"}} {{/unlessEq}}() {
     return {
       // note: changing this line won't causes changes
       // with hot-reload because the reloaded component
