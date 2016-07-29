@@ -6,7 +6,7 @@
 /____/\___/_/ /_/ /_/\__,_/_/ /_/\__/_/\___/     |__/|__/\___/_.___/ .___/\__,_/\___/_/|_|  
                                                                   /_/ Template                      
 ```
-> Generic template based on [semantic-ui](http://semantic-ui.com/) framework and [Webpack](https://webpack.github.io/) with powerful npm based build scripts.
+> Generic template based on [Semantic-ui](http://semantic-ui.com/) framework and [Webpack](https://webpack.github.io/) with powerful npm based build scripts.
 
 
 ## Install
