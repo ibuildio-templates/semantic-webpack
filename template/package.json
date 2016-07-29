@@ -70,7 +70,7 @@
     "live-reload": "live-reload --port 9091 $npm_package_config_dir_dist ",
     "open": "opener http://localhost:9090 ",
     "dev": "npm run open -s && parallelshell 'npm run live-reload -s' 'npm run serve -s' 'npm run watch -s' ",
-    "test": "echo 'Error: no test specified' && exit 1 "
+    "test": "echo 'Error: no test specified' && exit 1 ",
     {{#unit}}
     "unit": "karma start test/unit/karma.conf.js --single-run",
     {{/unit}}
