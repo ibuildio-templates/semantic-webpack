@@ -3,10 +3,74 @@
   "version": "1.0.0",
   "description": "{{ description }}",
   "author": "{{ author }}",
+  "homepage": "https://github.com/{{ username }}/{{ name }}",
+  {{#private}}
   "private": true,
+  {{/private}}
+  "keywords": [
+    "ibuild.io",
+    "{{ name }}"
+  ],
+  "bugs": {
+    "url": "https://github.com/{{ username }}/{{ name }}/issues"
+  },
+  "config": {
+    "minify": false,
+    "deploy": {
+      "name": "iAyeBot",
+      "email": "iayebot@websemantics.ca",
+      "branch": "gh-pages",
+      "message": "Deploy to gh-pages"
+    },
+    "semantic": {
+      "install": true,
+      "src": "./node_modules/semantic-ui/src/",
+      "config": "./src/less/semantic/theme.config"
+    },
+    "dir": {
+      "src": "./src/",
+      "dist": "./public/"
+    }
+  },
   "scripts": {
     "dev": "node build/dev-server.js",
+    "postinstall": "[ \"$npm_package_config_semantic_install\" = \"true\" ] && npm run semantic ",
     "build": "node build/build.js",
+    "build_": "npm run copy -s && npm run build:js -s && npm run build:css -s && npm run build:html -s && npm run build:cname -s ",
+    "build:clean": "rm -rf $npm_package_config_dir_dist ",
+    "build:init": "mkdir -p ${npm_package_config_dir_dist}js && mkdir -p ${npm_package_config_dir_dist}css",
+    "build:html": "ibuild static ",
+    "build:cname": "[ ${npm_package_config_domain} ] && echo $npm_package_config_domain > \"${npm_package_config_dir_dist}CNAME\" || echo '' ",
+    "build:css": "[ \"$npm_package_config_minify\" = \"true\" ] &&  npm run build:css:minify -s || npm run build:css:default -s ",
+    "build:css:default": "lessc ${npm_package_config_dir_src}less/index.less ${npm_package_config_dir_dist}css/styles.css ",
+    "build:css:minify": "lessc ${npm_package_config_dir_src}less/index.less | uglifycss > \"${npm_package_config_dir_dist}css/styles.css\" ",
+    "build:js": "[ \"$npm_package_config_minify\" = \"true\" ] && npm run build:js:minify -s || npm run build:js:default -s ",
+    "build:js:default": "browserify ${npm_package_config_dir_src}js/index.js -o ${npm_package_config_dir_dist}js/index.js ",
+    "build:js:minify": "browserify ${npm_package_config_dir_src}js/index.js | uglifyjs -mc > \"${npm_package_config_dir_dist}js/index.js\" ",
+    "build:development": "cross-env NODE_ENV=development npm run build ",
+    "build:production": "cross-env NODE_ENV=production npm run build ",
+    "prebuild_": "npm run build:clean -s && npm run build:init -s ",
+    "copy": "npm run copy:assets -s && npm run copy:fonts -s && npm run copy:default -s ",
+    "copy:default": "{{ copy }}",
+    "copy:assets": "cp -r ${npm_package_config_dir_src}assets/* $npm_package_config_dir_dist ",
+    "copy:fonts": "[ \"$npm_package_config_semantic_install\" = \"true\" ] && npm run semantic:fonts -s ",
+    "deploy": "[ ${GH_TOKEN} ] && npm run deploy:travis -s || npm run deploy:local -s ",
+    "deploy:local": "repository=$(echo $npm_package_repository_url | sed 's/.*+//') && cd $npm_package_config_dir_dist && git push --force --quiet $repository ${npm_package_config_deploy_branch} > /dev/null 2>&1 ",
+    "deploy:travis": "cd $npm_package_config_dir_dist && git push --force --quiet \"https://${GH_TOKEN}@${GH_REF}\" ${npm_package_config_deploy_branch} > /dev/null 2>&1 ",
+    "predeploy": "npm run build -s && cd $npm_package_config_dir_dist && git init && git config user.name $npm_package_config_deploy_name && git config user.email $npm_package_config_deploy_email && git add -A . && git commit -am \"$npm_package_config_deploy_message\" ",
+    "semantic": "npm install semantic-ui --save",
+    "semantic:init": "mkdir -p './semantic/src/definitions' && echo '{\"base\":\"semantic/\",\"paths\":{\"source\":{\"config\":\"src/theme.config\",\"definitions\":\"src/definitions/\",\"site\":\"src/site/\",\"themes\":\"src/themes/\"},\"output\":{\"packaged\":\"dist/\",\"uncompressed\":\"dist/components/\",\"compressed\":\"dist/components/\",\"themes\":\"dist/themes/\"},\"clean\":\"dist/\"},\"permission\":false,\"rtl\":false}' > './semantic.json' ",
+    "semantic:fonts": "cp -r ${npm_package_config_semantic_src}themes/default/assets/fonts ${npm_package_config_dir_dist}fonts/semantic ",
+    "presemantic": "npm run semantic:init -s ",
+    "postsemantic": "echo \"@import '${npm_package_config_semantic_config}';\" > \"${npm_package_config_semantic_src}theme.config\" ",
+    "watch": "nodemon -q -w $npm_package_config_dir_src --ext '.' --exec 'npm run build' ",
+    "watch:js": "nodemon -q -w ${npm_package_config_dir_src}js --ext '.' --exec 'npm run build:js' ",
+    "watch:css": "nodemon -q -w ${npm_package_config_dir_src}less --ext '.' --exec 'npm run build:css' ",
+    "serve": "http-server -p 9090 $npm_package_config_dir_dist ",
+    "live-reload": "live-reload --port 9091 $npm_package_config_dir_dist ",
+    "open": "opener http://localhost:9090 ",
+    "dev": "npm run open -s && parallelshell 'npm run live-reload -s' 'npm run serve -s' 'npm run watch -s' ",
+    "test": "echo 'Error: no test specified' && exit 1 "
     {{#unit}}
     "unit": "karma start test/unit/karma.conf.js --single-run",
     {{/unit}}
@@ -17,8 +81,10 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"{{/lint}}
   },
   "dependencies": {
+    {{#vue}}
     "vue": "^1.0.21",
-    "babel-runtime": "^6.0.0"
+    {{/vue}}
+    "babel-runtime": "^6.0.0"{{ dependencies }}
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
@@ -82,10 +148,12 @@
     "ora": "^0.2.0",
     "shelljs": "^0.6.0",
     "url-loader": "^0.5.7",
+    {{#vue}}
     "vue-hot-reload-api": "^1.2.0",
     "vue-html-loader": "^1.0.0",
     "vue-loader": "^8.3.0",
     "vue-style-loader": "^1.0.0",
+    {{/vue}}
     "webpack": "^1.12.2",
     "webpack-dev-middleware": "^1.4.0",
     "webpack-hot-middleware": "^2.6.0",

@@ -15,6 +15,14 @@
       "type": "string",
       "message": "Author"
     },
+    "private": {
+      "type": "boolean",
+      "default": true
+    },
+    "vue": {
+      "type": "boolean",
+      "default": false
+    },
     "lint": {
       "type": "confirm",
       "message": "Use ESLint to lint your code?"
