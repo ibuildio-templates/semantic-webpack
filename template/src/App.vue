@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img class="logo" src="./img/logo.png">
+    <img class="logo" src="/img/logo.png">
     <hello></hello>
     <p>
       Welcome to your Vue.js app!
@@ -27,9 +27,9 @@ import Hello from './components/Hello';
 
 export default {
   components: {
-    Hello,
-  },
-},
+    Hello
+  }
+}
 </script>
 
 <style>
