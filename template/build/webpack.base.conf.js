@@ -1,46 +1,41 @@
-var path = require('path')
-var config = require('../config')
 var utils = require('./utils')
-var projectRoot = path.resolve(__dirname, '../')
 
 module.exports = {
   entry: {
     app: './src/main.js'
   },
   output: {
-    path: config.build.assetsRoot,
-    publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath,
+    path: utils.assetsRootPath('/'),
+    publicPath: utils.assetsPublicPath(),
     filename: '[name].js'
   },
   resolve: {
     extensions: ['', '.js', '.vue'],
-    fallback: [path.join(__dirname, '../node_modules')],
+    fallback: [utils.rootPath('/node_modules')],
     alias: {
-      'src': path.resolve(__dirname, '../src'),
-      'assets': path.resolve(__dirname, '../src/assets'),
-      'components': path.resolve(__dirname, '../src/components')
+      'src': utils.srcPath('/'),
+      'assets': utils.srcPath('/assets'),
+      'components': utils.srcPath('/components')
     }
   },
   resolveLoader: {
-    fallback: [path.join(__dirname, '../node_modules')]
+    fallback: [utils.rootPath('/node_modules')]
   },
   module: {
-    {{#lint}}
     preLoaders: [
       {
         test: /\.vue$/,
         loader: 'eslint',
-        include: projectRoot,
+        include: utils.rootPath('/'),
         exclude: /node_modules/
       },
       {
         test: /\.js$/,
         loader: 'eslint',
-        include: projectRoot,
+        include: utils.rootPath('/'),
         exclude: /node_modules/
       }
     ],
-    {{/lint}}
     loaders: [
       {
         test: /\.vue$/,
@@ -49,7 +44,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel',
-        include: projectRoot,
+        include: utils.rootPath('/'),
         exclude: /node_modules/
       },
       {
@@ -78,11 +73,9 @@ module.exports = {
       }
     ]
   },
-  {{#lint}}
   eslint: {
     formatter: require('eslint-friendly-formatter')
   },
-  {{/lint}}
   vue: {
     loaders: utils.cssLoaders()
   }
