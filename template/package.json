@@ -98,6 +98,7 @@
     "babel-register": "^6.0.0",
     "connect-history-api-fallback": "^1.1.0",
     "css-loader": "^0.23.0",
+    "less-loader": "*",
     {{#lint}}
     "eslint": "^2.10.2",
     "eslint-friendly-formatter": "^2.0.5",
