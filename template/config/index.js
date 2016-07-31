@@ -1,20 +1,13 @@
-var path = require('path')
 var pkg = require('../package')
-
-/* get the source and distribution folders from package.json */
-var root = path.resolve(__dirname, '../')
-var dist = path.resolve(__dirname, '../' + pkg.config.dir.dist)
-var src = path.resolve(__dirname, '../' + pkg.config.dir.src)
 
 module.exports = {
   build: {
     env: {
       NODE_ENV: '"production"'
     },
-    src: src,
-    root: root,
-    index: dist + '/index.html',
-    assetsRoot: dist,
+    src: pkg.config.dir.src,
+    index: 'index.html',
+    assetsRoot: pkg.config.dir.dist,
     assetsSubDirectory: './',
     assetsPublicPath: '/',
     productionSourceMap: true,
@@ -25,10 +18,9 @@ module.exports = {
     env: {
       NODE_ENV: '"development"'
     },
-    src: src,
-    root: root,
+    src: pkg.config.dir.src,
     port: 8080,
-    assetsRoot: dist,
+    assetsRoot: pkg.config.dir.dist,
     assetsSubDirectory: './',
     assetsPublicPath: '/',
     proxyTable: {},
