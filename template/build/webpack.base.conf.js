@@ -2,7 +2,7 @@ var utils = require('./utils')
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: utils.srcPath('/src/index.js')
   },
   node: {
     fs: "empty"
