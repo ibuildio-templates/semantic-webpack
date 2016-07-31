@@ -49,7 +49,7 @@
     "build:production": "cross-env NODE_ENV=production npm run build ",
     "prebuild": "npm run build:clean -s && npm run build:init -s ",
     "copy": "npm run copy:assets -s && npm run copy:fonts -s && npm run copy:default -s ",
-    "copy:default": "{{ copy }}",
+    "copy:default": "{{ copy }} ",
     "copy:assets": "cp -r ${npm_package_config_dir_src}assets/* $npm_package_config_dir_dist ",
     "copy:fonts": "[ \"$npm_package_config_semantic_install\" = \"true\" ] && npm run semantic:fonts -s ",
     "deploy": "[ ${GH_TOKEN} ] && npm run deploy:travis -s || npm run deploy:local -s ",
