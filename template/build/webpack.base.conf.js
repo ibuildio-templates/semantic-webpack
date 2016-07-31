@@ -18,7 +18,8 @@ module.exports = {
     alias: {
       'src': utils.srcPath('/'),
       'assets': utils.srcPath('/assets'),
-      'components': utils.srcPath('/components')
+      'components': utils.srcPath('/components'),
+      'handlebars': 'handlebars/runtime.js'
     }
   },
   resolveLoader: {
