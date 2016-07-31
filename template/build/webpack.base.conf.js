@@ -5,7 +5,7 @@ module.exports = {
     app: './src/main.js'
   },
   node: {
-  fs: "empty"
+    fs: "empty"
   },
   output: {
     path: utils.assetsRootPath('/'),
