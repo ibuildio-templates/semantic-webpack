@@ -98,6 +98,7 @@
     "eslint-plugin-import": "^1.8.1",
     {{/lint}}
     "opener": *,
+    "parallelshell": *,
     "eventsource-polyfill": "^0.9.6",
     "express": "^4.13.3",
     "extract-text-webpack-plugin": "^1.0.1",
