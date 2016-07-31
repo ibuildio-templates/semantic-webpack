@@ -31,13 +31,13 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'eslint',
-        include: projectRoot,
+        include: utils.rootPath(),
         exclude: /node_modules/
       },
       {
         test: /\.js$/,
         loader: 'eslint',
-        include: projectRoot,
+        include: utils.rootPath(),
         exclude: /node_modules/
       }
     ],
